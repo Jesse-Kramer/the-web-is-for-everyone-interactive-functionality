@@ -1,0 +1,29 @@
+<%- include('./partials/head') %>
+
+    <main>
+        <section class="grid-container">
+            <% posts.forEach(post => { %>
+                
+                <% post.categories.forEach(function(categoryId, index) { %>
+                    <% if (index === 0) { %>
+                        <% const category = categories.find(category => category.id === categoryId); %>
+                        <% if (category) { %>
+                            <a href="<%= category.slug %>/<%= post.slug %>" class="article-link"> <!-- Not working correctly-->
+                        <% } %>
+                    <% } %>
+                <% }); %>
+                    <article class="article">
+                        <img src="<%= post.jetpack_featured_media_url %>" alt="Post Image">
+                        <h3>
+                            <%- post.title.rendered%>
+                        </h3>
+                        <span><b><%= post.yoast_head_json.author %></b> | <%= post.yoast_head_json.twitter_misc["Geschatte leestijd"] %></span>
+                    </article>
+                </a>
+            <% }); %>
+        </section>
+        
+        
+    </main>
+
+    <%- include('./partials/foot') %>

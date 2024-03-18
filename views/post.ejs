@@ -1,0 +1,38 @@
+<%- include('./partials/head') %>
+
+    <main>
+        <section class="single-post">
+            <img src="<%= post.jetpack_featured_media_url %>" class="post-img">
+            <h2>
+                <span class="category">
+                    <% post.categories.forEach(function(categoryId, index) { %>
+                        <% const category=categories.find(category=> category.id === categoryId); %>
+                            <% if (category) { %>
+                            <%= index !==0 ? ' | ' : '' %>
+                            <a href="../<%- category.slug %>" class="category"><%- category.name %></a>
+                        <% } %>
+                    <% }); %>
+                </span>
+                |
+                <%- post.title.rendered %>
+            </h2>
+
+            <ul>
+                <li class="author">
+                    <%= post.yoast_head_json.author %>
+                </li>
+                <!-- <li class="date">
+                    <%= post.date_gmt %>
+                </li> -->
+                <li class="read-time">
+                    <%= post.yoast_head_json.twitter_misc["Geschatte leestijd"] %>
+                </li>
+            </ul>
+            <p>
+                <%- post.content.rendered %>
+            </p>
+
+        </section>
+    </main>
+
+    <%- include('./partials/foot') %>
