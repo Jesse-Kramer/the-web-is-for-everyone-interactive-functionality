@@ -1,6 +1,8 @@
 <%- include('./partials/head') %>
 
     <main>
+        <span class="uitgelichte-kop">Uitgelichte kop</span> <br>
+        <span class="uitgelichte-intro">Uitgelichte intro</span> <br>
         <section class="grid-container">
             <% posts.forEach(post => { %>
                 
@@ -14,10 +16,11 @@
                 <% }); %>
                     <article class="article">
                         <img src="<%= post.jetpack_featured_media_url %>" alt="Post Image">
-                        <h3>
+                        <h3 class="normale-kop">
                             <%- post.title.rendered%>
                         </h3>
-                        <span><b><%= post.yoast_head_json.author %></b> | <%= post.yoast_head_json.twitter_misc["Geschatte leestijd"] %></span>
+                        <hr>
+                        <span class="meta auteur"><%= post.yoast_head_json.author %></span><span class="meta informatie"><%= post.yoast_head_json.twitter_misc["Geschatte leestijd"] %></span>
                     </article>
                 </a>
             <% }); %>

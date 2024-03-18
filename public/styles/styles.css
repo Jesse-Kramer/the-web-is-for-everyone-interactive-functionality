@@ -1,9 +1,56 @@
+@font-face {
+    font-family: TiemposHeadline;
+    src: url(../fonts/TiemposHeadline-Medium.ttf);
+}
+
+@font-face {
+    font-family: TiemposText;
+    src: url(../fonts/TiemposText-Regular.ttf);
+}
+
+
 /* Nav styling */
 body {
     position: relative;
     max-width: 1024px;
     margin-right: .5em;
     margin-left: .5em;
+}
+
+.uitgelichte-kop {
+    font-family: 'TiemposHeadline';
+    font-weight: 700;
+    font-size: 32px;
+    color: black;
+}
+
+.normale-kop {
+    font-family: 'TiemposHeadline';
+    font-weight: 700;
+    font-size: 28px;
+    color: black;
+}
+
+.uitgelichte-intro {
+    font-family: 'Inter';
+    font-weight: 300;
+    font-size: 19px;
+    color: black;
+}
+
+.meta {
+    font-family: 'Inter';
+    font-size: 12px;
+    color: black;
+    text-transform: uppercase;
+}
+
+.meta.auteur {
+    font-weight: 700;
+}
+
+.meta.informatie {
+    font-weight: 300;
 }
 
 /* Articles (Home) */
