@@ -15,6 +15,7 @@ body {
     max-width: 1024px;
     margin-right: .5em;
     margin-left: .5em;
+    background-color: #F7F7F5;
 }
 
 .uitgelichte-kop {
@@ -62,6 +63,7 @@ body {
 
 /* Style for each article */
 .article {
+    background-color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -69,8 +71,7 @@ body {
     border-style: solid;
     border-width: 1px;
     transition: background 0.3s ease, border 0.3s ease, border-radius 0.3s ease, box-shadow 0.3s ease;
-    padding: 10px;
-    height: 350px; /* Set a fixed height for all articles */
+    height: 400px; /* Set a fixed height for all articles */
     overflow: hidden; /* Ensure content does not overflow */
 }
 
@@ -84,11 +85,11 @@ body {
 
 /* Title style */
 .article h3 {
-    margin: 10px 0;
+    margin: 10px 10px 0 10px;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
     overflow: hidden;
 }
 
@@ -133,12 +134,12 @@ body {
 /* Media query for even larger screens */
 @media screen and (min-width: 900px) {
     .grid-container {
-        grid-template-columns: repeat(3, 1fr); /* Show four articles per row on screens larger than 900px */
+        grid-template-columns: repeat(2, 1fr); /* Show four articles per row on screens larger than 900px */
     }
 
     /* Set the first article to span two columns */
 .article:first-child {
-    grid-column-end: span 3; /* Span two columns */
+    grid-column-end: span 2; /* Span two columns */
 }
 }
 
