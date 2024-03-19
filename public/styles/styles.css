@@ -9,70 +9,83 @@
 }
 
 
-/* Nav styling */
+/* Body styling */
 body {
     position: relative;
     max-width: 1024px;
     margin-right: .5em;
     margin-left: .5em;
     background-color: #F7F7F5;
+    color: #000000;
+
+    --headline-text: 'TiemposHeadline';
+    --default-text: 'Inter';
 }
 
-.uitgelichte-kop {
-    font-family: 'TiemposHeadline';
-    font-weight: 700;
-    font-size: 32px;
-    color: black;
+/* Home styling */
+.grid{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 10px;
 }
 
-.normale-kop {
-    font-family: 'TiemposHeadline';
+.grid.container {
+    margin-top: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjusted for mobile */
+}
+
+.headline {
+    font-family: var(--headline-text);
     font-weight: 700;
     font-size: 28px;
-    color: black;
 }
 
-.uitgelichte-intro {
-    font-family: 'Inter';
-    font-weight: 300;
-    font-size: 19px;
-    color: black;
+.headline.featured{
+    font-size: 32px;
 }
 
-.meta {
-    font-family: 'Inter';
+.featured-text{
+    font-family: var(--headline-text);
+    font-weight: 700;
+    font-size: 28px;
+}
+
+.post-meta {
+    font-family: var(--default-text);
     font-size: 12px;
-    color: black;
     text-transform: uppercase;
 }
 
-.meta.auteur {
+.post-meta .author {
     font-weight: 700;
 }
 
-.meta.informatie {
+.post-meta .reading-time {
     font-weight: 300;
 }
 
-/* Articles (Home) */
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjusted for mobile */
-    grid-gap: 10px; /* Gap between grid items */
+hr {
+    color: black;
+    background-color: black;
+    width: 100%;
+    margin: 1em;
+    border: none;
+    height: 2px;
 }
 
 /* Style for each article */
 .article {
     background-color: #fff;
     display: flex;
+    margin-right: auto;
+    margin-left: auto;
+    position: relative;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    border-style: solid;
-    border-width: 1px;
-    transition: background 0.3s ease, border 0.3s ease, border-radius 0.3s ease, box-shadow 0.3s ease;
-    height: 400px; /* Set a fixed height for all articles */
-    overflow: hidden; /* Ensure content does not overflow */
+    border: 2px solid black;
+    height: 450px;
+    overflow: hidden;
 }
 
 /* Image style */
@@ -91,59 +104,21 @@ body {
     -webkit-line-clamp: 3;
     line-clamp: 3;
     overflow: hidden;
+    min-height: 100px;
 }
 
-/* Author and reading time style */
-.article span {
-    font-size: 14px;
-}
-
-/* Set the first article to span two columns */
-.article:first-child {
-    grid-column-end: span 2; /* Span two columns */
-}
-
-.article-link {
+a.article-link {
     text-decoration: none; /* Remove underline */
     color: inherit; /* Inherit text color */
 }
 
-/* Media query for screens between 480px and 600px */
-@media screen and (min-width: 450px) and (max-width: 600px) {
-    .grid-container {
-        grid-template-columns: repeat(2, 1fr); /* Show two articles per row on screens between 480px and 600px */
-    }
-
-    /* Set the first article to span two columns */
-    .article:first-child {
-        grid-column-end: span 2;
-    }
-}
-
-/* Media query for larger screens */
-@media screen and (min-width: 600px) {
-    .grid-container {
-        grid-template-columns: repeat(2, 1fr); /* Show two articles per row on screens larger than 600px */
-    }
-
-    .article:first-child {
-        grid-column-end: span 2; /* Span two columns */
-    }
-}
-
 /* Media query for even larger screens */
-@media screen and (min-width: 900px) {
-    .grid-container {
-        grid-template-columns: repeat(2, 1fr); /* Show four articles per row on screens larger than 900px */
+@media screen and (min-width: 450px) {
+    .grid.container {
+        grid-template-columns: repeat(2, 1fr);
     }
-
-    /* Set the first article to span two columns */
-.article:first-child {
-    grid-column-end: span 2; /* Span two columns */
-}
 }
 
-/* Media query for even larger screens */
 @media screen and (min-width: 1024px) {
     body{
         margin-left: auto;

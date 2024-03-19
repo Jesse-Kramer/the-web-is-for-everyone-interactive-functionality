@@ -1,30 +1,60 @@
 <%- include('./partials/head') %>
 
     <main>
-        <span class="uitgelichte-kop">Uitgelichte kop</span> <br>
-        <span class="uitgelichte-intro">Uitgelichte intro</span> <br>
-        <section class="grid-container">
-            <% posts.forEach(post => { %>
-                
-                <% post.categories.forEach(function(categoryId, index) { %>
-                    <% if (index === 0) { %>
-                        <% const category = categories.find(category => category.id === categoryId); %>
-                        <% if (category) { %>
-                            <a href="<%= category.slug %>/<%= post.slug %>" class="article-link"> <!-- Not working correctly-->
-                        <% } %>
+            <!-- First grid-container for the first post -->
+            <section class="grid">
+                <% if (posts.length > 0) { %>
+                    <% const firstPost = posts[0]; %>
+                    <% const firstPostCategories = firstPost.categories.map(categoryId => categories.find(category => category.id === categoryId)); %>
+                    <% if (firstPostCategories.length > 0) { %>
+                        <% const firstPostCategory = firstPostCategories[0]; %>
+                        <a href="<%= firstPostCategory.slug %>/<%= firstPost.slug %>" class="article-link">
+                            <article class="article">
+                                <img src="<%= firstPost.jetpack_featured_media_url %>" alt="Post Image">
+                                <h3 class="headline featured">
+                                    <%- firstPost.title.rendered %>
+                                </h3>
+                                <!-- <p class="featured-text">
+                                    <%- firstPost.content.rendered %>
+                                </p> -->
+                                </h3>
+                                <hr>
+                                <div class="post-meta">
+                                    <span class="author"><%= firstPost.yoast_head_json.author %></span>
+                                    <span class="reading-time">| <%= firstPost.yoast_head_json.twitter_misc["Geschatte leestijd"] %></span>
+                                </div>                                
+                            </article>
+                        </a>
                     <% } %>
-                <% }); %>
+                <% } %>
+            </section>
+
+            <!-- Second grid-container for remaining posts -->
+            <section class="grid container">
+                <% posts.slice(1).forEach(post => { %>
+                    <% post.categories.forEach(function(categoryId, index) { %>
+                        <% if (index === 0) { %>
+                            <% const category = categories.find(category => category.id === categoryId); %>
+                            <% if (category) { %>
+                                <a href="<%= category.slug %>/<%= post.slug %>" class="article-link">
+                            <% } %>
+                        <% } %>
+                    <% }); %>
                     <article class="article">
                         <img src="<%= post.jetpack_featured_media_url %>" alt="Post Image">
-                        <h3 class="normale-kop">
-                            <%- post.title.rendered%>
+                        <h3 class="headline">
+                            <%- post.title.rendered %>
                         </h3>
                         <hr>
-                        <div><span class="meta auteur"><%= post.yoast_head_json.author %></span> <span class="meta informatie">| <%= post.yoast_head_json.twitter_misc["Geschatte leestijd"] %></span></div>
+                        <div class="post-meta">
+                            <span class="author"><%= post.yoast_head_json.author %></span>
+                            <span class="reading-time">| <%= post.yoast_head_json.twitter_misc["Geschatte leestijd"] %></span>
+                        </div>          
                     </article>
-                </a>
-            <% }); %>
-        </section>
+                    </a>
+                <% }); %>
+            </section>
+
         
         
     </main>
