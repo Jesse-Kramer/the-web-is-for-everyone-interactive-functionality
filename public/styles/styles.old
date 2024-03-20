@@ -1,0 +1,52 @@
+/* Style for each article */
+.article {
+    background-color: #fff;
+    display: flex;
+    margin-right: auto;
+    margin-left: auto;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 2px solid black;
+    height: 450px;
+    overflow: hidden;
+}
+
+/* Image style */
+.article img {
+    width: 100%;
+    height: 250px; /* Fixed height for images */
+    object-fit: cover; /* Maintain aspect ratio and crop if necessary */
+    margin-bottom: 10px; /* Add some spacing between image and text */
+}
+
+/* Title style */
+.article h3 {
+    margin: 10px 10px 0 10px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+    min-height: 100px;
+}
+
+a.article-link {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Inherit text color */
+}
+
+/* Media query for even larger screens */
+@media screen and (min-width: 450px) {
+    .grid.container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    body{
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

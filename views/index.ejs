@@ -9,7 +9,7 @@
                     <% if (firstPostCategories.length > 0) { %>
                         <% const firstPostCategory = firstPostCategories[0]; %>
                         <a href="<%= firstPostCategory.slug %>/<%= firstPost.slug %>" class="article-link">
-                            <article class="article">
+                            <article class="article featured">
                                 <img src="<%= firstPost.jetpack_featured_media_url %>" alt="Post Image">
                                 <h3 class="headline featured">
                                     <%- firstPost.title.rendered %>
@@ -30,7 +30,7 @@
             </section>
 
             <!-- Second grid-container for remaining posts -->
-            <section class="grid container">
+            <section class="article-list">
                 <% posts.slice(1).forEach(post => { %>
                     <% post.categories.forEach(function(categoryId, index) { %>
                         <% if (index === 0) { %>
