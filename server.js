@@ -79,6 +79,7 @@ app.get('/:categorySlug', function (request, response) {
 app.get('/:categorySlug/:postSlug', function (request, response) {
     const categorySlug = request.params.categorySlug;
     const postSlug = request.params.postSlug;
+    const currentUrl = `${request.protocol}://${request.get('host')}${request.originalUrl}`; // Krijg de URL van de huidige post
 
     fetchJson(`${apiUrl}/categories?slug=${categorySlug}`)
         .then((categoriesData) => {
@@ -97,7 +98,7 @@ app.get('/:categorySlug/:postSlug', function (request, response) {
                         return;
                     }
 
-                    response.render('post', { post: postsData[0], categories: categoriesData });
+                    response.render('post', { post: postsData[0], categories: categoriesData , currentUrl});
                 })
                 .catch((error) => {
                     // Handle error if fetching data fails

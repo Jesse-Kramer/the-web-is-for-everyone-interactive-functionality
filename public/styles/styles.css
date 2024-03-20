@@ -228,3 +228,33 @@ nav {
         width: calc(20% - 5%)
     }
 }
+
+/* Share button */
+.share-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; /* Set initial width for mobile */
+    height: 40px; /* Set initial height for mobile */
+}
+
+@media screen and (min-width: 576px) {
+    .share-button {
+        width: 50px; /* Adjust width for larger screens */
+        height: 50px; /* Adjust height for larger screens */
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .share-button {
+        width: 60px; /* Adjust width for tablets */
+        height: 60px; /* Adjust height for tablets */
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .share-button {
+        width: 70px; /* Adjust width for desktops */
+        height: 70px; /* Adjust height for desktops */
+    }
+}
