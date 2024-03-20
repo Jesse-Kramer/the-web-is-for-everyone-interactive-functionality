@@ -1,12 +1,11 @@
-const shareButton = document.getElementById('shareLink');
+const shareButton = document.getElementById('shareButton');
 
 shareButton.addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent default action of anchor tag
-
+    
     // Check if the share API is supported by the browser
     if (navigator.share) {
         navigator.share({
-            url: '<%= currentUrl %>'
+            url: currentUrl
         }).then(() => {
             console.log('Link shared successfully');
         }).catch((error) => {

@@ -229,6 +229,18 @@ nav {
     }
 }
 
+/* Hide content visually but keep it accessible to screen readers */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 /* Share button */
 .share-button {
     display: flex;
@@ -236,6 +248,14 @@ nav {
     justify-content: center;
     width: 40px; /* Set initial width for mobile */
     height: 40px; /* Set initial height for mobile */
+    border: none; /* Remove default button styling */
+    background: none; /* Remove default button styling */
+    cursor: pointer; /* Change cursor to pointer */
+    padding: 0; /* Remove default button padding */
+}
+
+.share-button:focus {
+    outline: none; /* Remove default focus outline */
 }
 
 @media screen and (min-width: 576px) {
