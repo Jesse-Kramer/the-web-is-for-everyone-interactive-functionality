@@ -24,10 +24,11 @@ body {
 
 /* Home styling */
 .grid{
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
+    display: flex;
     grid-gap: 10px;
     margin-bottom: 10px;
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
 }
 
 .headline {
@@ -41,9 +42,9 @@ body {
 }
 
 .featured-text{
-    font-family: var(--headline-text);
-    font-weight: 700;
-    font-size: 28px;
+    font-family: var(--default-text);
+    font-weight: 300;
+    font-size: 19px;
 }
 
 .post-meta {
@@ -86,9 +87,8 @@ body {
     overflow: hidden;
 }
 
-.article.featured img {
-    min-height: 200px;
-    max-height: 200px; /* Fixed height for images */
+.article.featured img.featured-image-mobile {
+    display: block;
 }
 
 .article h3 {
@@ -101,12 +101,8 @@ body {
     min-height: 100px;
 }
 
-.article.featured h3 {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    min-height: 130px;
+.featured-image, div.featured-text {
+    display: none;
 }
 
 hr {
@@ -129,6 +125,13 @@ a.article-link {
 }
 
 @media screen and (min-width: 800px) {
+    .grid{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 10px;
+        margin-bottom: 10px;
+    }
+
     .article-list{
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -145,7 +148,17 @@ a.article-link {
         align-items: center;
         text-align: center;
         height: 450px;
+        max-height: 450px;
         overflow: hidden;
+    }
+
+    .article.featured h3 {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+        line-clamp: 4;
+        min-height: 120px;
+        margin: .2em 0 .2em 0;
     }
 
     /* Image style */
@@ -158,8 +171,12 @@ a.article-link {
     }
 
     .article.featured img {
-        min-height: 300px;
-        max-height: 300px; /* Fixed height for images */
+        min-height: 450px;
+        max-height: 450px;
+    }
+
+    .article.featured img.featured-image-mobile {
+        display: none;
     }
 
     /* Title style */
@@ -171,6 +188,24 @@ a.article-link {
 
     hr{
         margin: 1em;
+    }
+
+    a.featured-text{
+        grid-area: 1 / 1 / 2 / 2;
+    }
+
+    div.featured-text{
+        display: block;
+    }
+    
+    a.featured-image{
+        grid-area: 1 / 2 / 2 / 4;
+        display: block;
+    }
+    
+    .article.featured img {
+        min-height: 450px;
+        max-height: 450px; /* Fixed height for images */
     }
 }
 

@@ -8,21 +8,34 @@
                     <% const firstPostCategories = firstPost.categories.map(categoryId => categories.find(category => category.id === categoryId)); %>
                     <% if (firstPostCategories.length > 0) { %>
                         <% const firstPostCategory = firstPostCategories[0]; %>
-                        <a href="<%= firstPostCategory.slug %>/<%= firstPost.slug %>" class="article-link">
+                        <a href="<%= firstPostCategory.slug %>/<%= firstPost.slug %>" class="article-link featured-text">
                             <article class="article featured">
-                                <img src="<%= firstPost.jetpack_featured_media_url %>" alt="Post Image">
                                 <h3 class="headline featured">
                                     <%- firstPost.title.rendered %>
                                 </h3>
-                                <!-- <p class="featured-text">
-                                    <%- firstPost.content.rendered %>
-                                </p> -->
+                                <img src="<%= firstPost.jetpack_featured_media_url %>" class="featured-image-mobile" alt="Post Image">                         
+                                <div class="featured-text">
+                                    <%
+                                    // Split the content by paragraphs
+                                    const paragraphs = firstPost.content.rendered.split('</p>');
+
+                                    // Get the first paragraph
+                                    const firstParagraph = paragraphs[0].replace('<p>', '');
+                                    %>
+                                    <%- firstParagraph %>
+                                    <%- console.log(firstPost.content.rendered) %>
+                                </div>
                                 </h3>
                                 <hr>
                                 <div class="post-meta">
                                     <span class="author"><%= firstPost.yoast_head_json.author %></span>
                                     <span class="reading-time">| <%= firstPost.yoast_head_json.twitter_misc["Geschatte leestijd"] %></span>
                                 </div>                                
+                            </article>
+                        </a>
+                        <a href="<%= firstPostCategory.slug %>/<%= firstPost.slug %>" class="article-link featured-image">
+                            <article class="article featured">
+                                <img src="<%= firstPost.jetpack_featured_media_url %>" alt="Post Image">                         
                             </article>
                         </a>
                     <% } %>
