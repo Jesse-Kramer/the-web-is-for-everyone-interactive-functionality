@@ -4,9 +4,9 @@ import express from 'express';
 // Import the fetchJson function from the ./helpers directory
 import fetchJson from './helpers/fetch-json.js';
 
-// Set the base API endpoint
-const redpers_url = 'https://redpers.nl/wp-json/wp/v2';
-const directus_url = 'https://fdnd-agency.directus.app/items/redpers_shares'
+// Define the base URLs for Redpers and Directus APIs
+const redpersUrl = 'https://redpers.nl/wp-json/wp/v2';
+const directusUrl = 'https://fdnd-agency.directus.app/items/redpers_shares';
 
 // Create a new express app
 const app = express();
@@ -26,12 +26,12 @@ app.use(express.static('public'));
 // GET route for the index page
 app.get('/', function (request, response) {
     // Fetch posts from the API
-    const categoriesURL = `${redpers_url}/categories?per_page=100`;
-    const postsUrl = `${redpers_url}/posts`;
-    const sharesUrl = `${directus_url}`;
+    const categoriesUrl = `${redpersUrl}/categories?per_page=100`;
+    const postsUrl = `${redpersUrl}/posts`;
+    const sharesUrl = `${directusUrl}`;
 
     // Fetch posts, categories, and shares concurrently
-    Promise.all([fetchJson(categoriesURL), fetchJson(postsUrl), fetchJson(sharesUrl)])
+    Promise.all([fetchJson(categoriesUrl), fetchJson(postsUrl), fetchJson(sharesUrl)])
         .then(([categoriesData, postsData, sharesData]) => {
             // Map over the postsData array and add shares information to each article
             postsData.forEach((article) => {
@@ -53,7 +53,8 @@ app.get('/', function (request, response) {
 app.get('/:categorySlug', function (request, response) {
     const categorySlug = request.params.categorySlug;
 
-    fetchJson(`${redpers_url}/categories?slug=${categorySlug}`)
+    // Fetch category data based on provided category slug
+    fetchJson(`${redpersUrl}/categories?slug=${categorySlug}`)
         .then((categoriesData) => {
             if (categoriesData.length === 0) {
                 // If no category found, return 404
@@ -64,7 +65,7 @@ app.get('/:categorySlug', function (request, response) {
             const categoryId = categoriesData[0].id;
 
             // Fetch posts from the API based on category id
-            fetchJson(`${redpers_url}/posts?categories=${categoryId}`)
+            fetchJson(`${redpersUrl}/posts?categories=${categoryId}`)
                 .then((postsData) => {
                     // Render category.ejs and pass the fetched data as 'category' and 'posts' variables
                     response.render('category', { category: categoriesData[0], posts: postsData });
@@ -88,7 +89,8 @@ app.get('/:categorySlug/:postSlug', function (request, response) {
     const postSlug = request.params.postSlug;
     const currentUrl = `${request.protocol}://${request.get('host')}${request.originalUrl}`; // Get the URL of the current post
 
-    fetchJson(`${redpers_url}/categories?slug=${categorySlug}`)
+    // Fetch category data based on provided category slug
+    fetchJson(`${redpersUrl}/categories?slug=${categorySlug}`)
         .then((categoriesData) => {
             if (categoriesData.length === 0) {
                 // If no category found, return 404
@@ -97,7 +99,7 @@ app.get('/:categorySlug/:postSlug', function (request, response) {
             }
 
             // Fetch the post with the given slug from the API
-            fetchJson(`${redpers_url}/posts?slug=${postSlug}`)
+            fetchJson(`${redpersUrl}/posts?slug=${postSlug}`)
                 .then((postsData) => {
                     if (postsData.length === 0) {
                         // If no post found, return 404
@@ -106,7 +108,7 @@ app.get('/:categorySlug/:postSlug', function (request, response) {
                     }
 
                     // Fetch shares data from Directus API
-                    fetchJson(`${directus_url}?filter[slug][_eq]=${postSlug}`)
+                    fetchJson(`${directusUrl}?filter[slug][_eq]=${postSlug}`)
                         .then(({ data }) => {
                             const shares = data.length > 0 ? data[0].shares : 0;
 
@@ -136,10 +138,11 @@ app.get('/:categorySlug/:postSlug', function (request, response) {
 app.post('/:categorySlug/:postSlug', (request, response) => {
     const postSlug = request.params.postSlug;
 
-    fetchJson(`${directus_url}?filter[slug][_eq]=${postSlug}`)
+    // Fetch shares data for the given post slug
+    fetchJson(`${directusUrl}?filter[slug][_eq]=${postSlug}`)
         .then(({ data }) => {
             // Perform a PATCH request on Directus API to update shares count
-            fetchJson(`${directus_url}/${data[0]?.id ? data[0].id : ''}`, {
+            fetchJson(`${directusUrl}/${data[0]?.id ? data[0].id : ''}`, {
                 method: data[0]?.id ? 'PATCH' : 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -163,7 +166,6 @@ app.post('/:categorySlug/:postSlug', (request, response) => {
             response.redirect(301, `/${request.params.categorySlug}/${postSlug}`);
         });
 });
-
 
 // Set the port number for express to listen on
 app.set('port', process.env.PORT || 8000);
