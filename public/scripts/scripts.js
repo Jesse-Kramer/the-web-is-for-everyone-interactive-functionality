@@ -1,7 +1,4 @@
-const shareButton = document.getElementById('shareButton');
-
-shareButton.addEventListener('click', function(event) {
-    
+function shareButton(){
     // Check if the share API is supported by the browser
     if (navigator.share) {
         navigator.share({
@@ -16,4 +13,4 @@ shareButton.addEventListener('click', function(event) {
         // Fallback behavior if sharing is not supported
         // For example, you can open a dialog box with the link for manual sharing
     }
-});
+}

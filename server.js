@@ -27,13 +27,12 @@ app.get('/', function (request, response) {
     // Fetch posts from the API
     const categoriesURL = `${apiUrl}/categories?per_page=100`;
     const postsUrl = `${apiUrl}/posts?per_page=10`;
-    const usersUrl = `${apiUrl}/users`;
 
-    // Fetch posts and users concurrently
+    // Fetch posts and categories concurrently
     Promise.all([fetchJson(categoriesURL), fetchJson(postsUrl), fetchJson(usersUrl)])
-        .then(([categoriesData, postsData, usersData]) => {
+        .then(([categoriesData, postsData]) => {
             // Render index.ejs and pass the fetched data as 'posts' and 'users' variables
-            response.render('index', { categories: categoriesData, posts: postsData, users: usersData });
+            response.render('index', { categories: categoriesData, posts: postsData});
         })
         .catch((error) => {
             // Handle error if fetching data fails
