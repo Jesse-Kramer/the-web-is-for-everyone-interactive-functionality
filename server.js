@@ -27,14 +27,20 @@ app.use(express.static('public'));
 app.get('/', function (request, response) {
     // Fetch posts from the API
     const categoriesURL = `${redpers_url}/categories?per_page=100`;
-    const postsUrl = `${redpers_url}/posts?per_page=10`;
-    const sharesUrl = `${directus_url}`
+    const postsUrl = `${redpers_url}/posts`;
+    const sharesUrl = `${directus_url}`;
 
-    // Fetch posts and categories concurrently
-    Promise.all([fetchJson(categoriesURL), fetchJson(postsUrl)])
-        .then(([categoriesData, postsData]) => {
+    // Fetch posts, categories, and shares concurrently
+    Promise.all([fetchJson(categoriesURL), fetchJson(postsUrl), fetchJson(sharesUrl)])
+        .then(([categoriesData, postsData, sharesData]) => {
+            // Map over the postsData array and add shares information to each article
+            postsData.forEach((article) => {
+                const shareInfo = sharesData.data.find((share) => share.slug === article.slug);
+                article.shares = shareInfo ? shareInfo.shares : 0;
+            });
+
             // Render index.ejs and pass the fetched data as 'posts' and 'categories' variables
-            response.render('index', { categories: categoriesData, posts: postsData});
+            response.render('index', { categories: categoriesData, posts: postsData });
         })
         .catch((error) => {
             // Handle error if fetching data fails
@@ -80,7 +86,7 @@ app.get('/:categorySlug', function (request, response) {
 app.get('/:categorySlug/:postSlug', function (request, response) {
     const categorySlug = request.params.categorySlug;
     const postSlug = request.params.postSlug;
-    const currentUrl = `${request.protocol}://${request.get('host')}${request.originalUrl}`; // Krijg de URL van de huidige post
+    const currentUrl = `${request.protocol}://${request.get('host')}${request.originalUrl}`; // Get the URL of the current post
 
     fetchJson(`${redpers_url}/categories?slug=${categorySlug}`)
         .then((categoriesData) => {
@@ -99,7 +105,19 @@ app.get('/:categorySlug/:postSlug', function (request, response) {
                         return;
                     }
 
-                    response.render('post', { post: postsData[0], categories: categoriesData , currentUrl});
+                    // Fetch shares data from Directus API
+                    fetchJson(`${directus_url}?filter[slug][_eq]=${postSlug}`)
+                        .then(({ data }) => {
+                            const shares = data.length > 0 ? data[0].shares : 0;
+
+                            // Render post.ejs and pass the fetched data
+                            response.render('post', { post: postsData[0], categories: categoriesData, currentUrl, shares });
+                        })
+                        .catch((error) => {
+                            console.error('Error fetching shares data:', error);
+                            // Render post.ejs even if shares data cannot be fetched
+                            response.render('post', { post: postsData[0], categories: categoriesData, currentUrl, shares: 0 });
+                        });
                 })
                 .catch((error) => {
                     // Handle error if fetching data fails
@@ -113,6 +131,39 @@ app.get('/:categorySlug/:postSlug', function (request, response) {
             response.status(500).send('Error fetching data');
         });
 });
+
+// POST route to increment shares count
+app.post('/:categorySlug/:postSlug', (request, response) => {
+    const postSlug = request.params.postSlug;
+
+    fetchJson(`${directus_url}?filter[slug][_eq]=${postSlug}`)
+        .then(({ data }) => {
+            // Perform a PATCH request on Directus API to update shares count
+            fetchJson(`${directus_url}/${data[0]?.id ? data[0].id : ''}`, {
+                method: data[0]?.id ? 'PATCH' : 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    slug: postSlug,
+                    shares: data.length > 0 ? data[0].shares + 1 : 1,
+                }),
+            })
+            .then((result) => {
+                // Redirect to the article page after updating shares count
+                response.redirect(301, `/${request.params.categorySlug}/${postSlug}`);
+            })
+            .catch((error) => {
+                console.error('Error updating shares count:', error);
+                // Redirect to the article page even if shares count cannot be updated
+                response.redirect(301, `/${request.params.categorySlug}/${postSlug}`);
+            });
+        })
+        .catch((error) => {
+            console.error('Error fetching shares data:', error);
+            // Redirect to the article page if shares data cannot be fetched
+            response.redirect(301, `/${request.params.categorySlug}/${postSlug}`);
+        });
+});
+
 
 // Set the port number for express to listen on
 app.set('port', process.env.PORT || 8000);

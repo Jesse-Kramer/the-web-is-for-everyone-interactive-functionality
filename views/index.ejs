@@ -29,6 +29,7 @@
                                 <div class="post-meta">
                                     <span class="author"><%= firstPost.yoast_head_json.author %></span>
                                     <span class="reading-time">| <%= firstPost.yoast_head_json.twitter_misc["Geschatte leestijd"] %></span>
+                                    <span class="reading-time">| Keren gedeeld: <%= firstPost.shares %>x</span>
                                 </div>                                
                             </article>
                         </a>
@@ -61,6 +62,7 @@
                         <div class="post-meta">
                             <span class="author"><%= post.yoast_head_json.author %></span>
                             <span class="reading-time">| <%= post.yoast_head_json.twitter_misc["Geschatte leestijd"] %></span>
+                            <span class="reading-time">| Keren gedeeld: <%= post.shares %>x</span>
                         </div>          
                     </article>
                     </a>
