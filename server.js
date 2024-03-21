@@ -5,7 +5,8 @@ import express from 'express';
 import fetchJson from './helpers/fetch-json.js';
 
 // Set the base API endpoint
-const apiUrl = 'https://redpers.nl/wp-json/wp/v2';
+const redpers_url = 'https://redpers.nl/wp-json/wp/v2';
+const directus_url = 'https://fdnd-agency.directus.app/items/redpers_shares'
 
 // Create a new express app
 const app = express();
@@ -25,13 +26,14 @@ app.use(express.static('public'));
 // GET route for the index page
 app.get('/', function (request, response) {
     // Fetch posts from the API
-    const categoriesURL = `${apiUrl}/categories?per_page=100`;
-    const postsUrl = `${apiUrl}/posts?per_page=10`;
+    const categoriesURL = `${redpers_url}/categories?per_page=100`;
+    const postsUrl = `${redpers_url}/posts?per_page=10`;
+    const sharesUrl = `${directus_url}`
 
     // Fetch posts and categories concurrently
-    Promise.all([fetchJson(categoriesURL), fetchJson(postsUrl), fetchJson(usersUrl)])
+    Promise.all([fetchJson(categoriesURL), fetchJson(postsUrl)])
         .then(([categoriesData, postsData]) => {
-            // Render index.ejs and pass the fetched data as 'posts' and 'users' variables
+            // Render index.ejs and pass the fetched data as 'posts' and 'categories' variables
             response.render('index', { categories: categoriesData, posts: postsData});
         })
         .catch((error) => {
@@ -45,7 +47,7 @@ app.get('/', function (request, response) {
 app.get('/:categorySlug', function (request, response) {
     const categorySlug = request.params.categorySlug;
 
-    fetchJson(`${apiUrl}/categories?slug=${categorySlug}`)
+    fetchJson(`${redpers_url}/categories?slug=${categorySlug}`)
         .then((categoriesData) => {
             if (categoriesData.length === 0) {
                 // If no category found, return 404
@@ -56,7 +58,7 @@ app.get('/:categorySlug', function (request, response) {
             const categoryId = categoriesData[0].id;
 
             // Fetch posts from the API based on category id
-            fetchJson(`${apiUrl}/posts?categories=${categoryId}`)
+            fetchJson(`${redpers_url}/posts?categories=${categoryId}`)
                 .then((postsData) => {
                     // Render category.ejs and pass the fetched data as 'category' and 'posts' variables
                     response.render('category', { category: categoriesData[0], posts: postsData });
@@ -80,7 +82,7 @@ app.get('/:categorySlug/:postSlug', function (request, response) {
     const postSlug = request.params.postSlug;
     const currentUrl = `${request.protocol}://${request.get('host')}${request.originalUrl}`; // Krijg de URL van de huidige post
 
-    fetchJson(`${apiUrl}/categories?slug=${categorySlug}`)
+    fetchJson(`${redpers_url}/categories?slug=${categorySlug}`)
         .then((categoriesData) => {
             if (categoriesData.length === 0) {
                 // If no category found, return 404
@@ -89,7 +91,7 @@ app.get('/:categorySlug/:postSlug', function (request, response) {
             }
 
             // Fetch the post with the given slug from the API
-            fetchJson(`${apiUrl}/posts?slug=${postSlug}`)
+            fetchJson(`${redpers_url}/posts?slug=${postSlug}`)
                 .then((postsData) => {
                     if (postsData.length === 0) {
                         // If no post found, return 404
