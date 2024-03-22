@@ -152,18 +152,18 @@ app.post('/:categorySlug/:postSlug', (request, response) => {
             })
             .then((result) => {
                 // Redirect to the article page after updating shares count
-                response.redirect(301, `/${request.params.categorySlug}/${postSlug}`);
+                response.redirect(301, `/${request.params.categorySlug}/${postSlug}#post-info`);
             })
             .catch((error) => {
                 console.error('Error updating shares count:', error);
                 // Redirect to the article page even if shares count cannot be updated
-                response.redirect(301, `/${request.params.categorySlug}/${postSlug}`);
+                response.redirect(301, `/${request.params.categorySlug}/${postSlug}#post-info`);
             });
         })
         .catch((error) => {
             console.error('Error fetching shares data:', error);
             // Redirect to the article page if shares data cannot be fetched
-            response.redirect(301, `/${request.params.categorySlug}/${postSlug}`);
+            response.redirect(301, `/${request.params.categorySlug}/${postSlug}#post-info`);
         });
 });
 

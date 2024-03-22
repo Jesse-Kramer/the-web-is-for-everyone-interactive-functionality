@@ -10,7 +10,7 @@
             <%- post.title.rendered %>
         </h2>
         <img src="<%= post.jetpack_featured_media_url %>" class="post-image">
-        <div class="post-info">
+        <div class="post-info" id="post-info">
             <span class="category">
                 <% post.categories.forEach(function(categoryId, index) { %>
                     <% const firstCategoryId = post.categories[0]; %>
