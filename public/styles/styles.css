@@ -10,6 +10,11 @@
 
 
 /* Body styling */
+* {
+    margin: 0;
+    padding: 0;
+}
+
 body {
     position: relative;
     max-width: 1024px;
@@ -17,9 +22,11 @@ body {
     margin-left: .5em;
     background-color: #F7F7F5;
     color: #000000;
+    --accent-color: #e84340;
 
     --headline-text: 'TiemposHeadline';
     --default-text: 'Inter';
+    --bread-text: 'TiemposText';
 }
 
 /* Home styling */
@@ -51,6 +58,14 @@ body {
     font-family: var(--default-text);
     font-size: 12px;
     text-transform: uppercase;
+    display: flex; /* Make the post-meta section flex container */
+    align-items: center; /* Center items vertically */
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.post-meta > *:not(:last-child) {
+    margin-right: 5px;
 }
 
 .post-meta .author {
@@ -114,7 +129,7 @@ hr {
     height: 2px;
 }
 
-.article .post-meta{
+.article .post-meta {
     margin-top: 1em;
     grid-area: 2 / 2 / 3 / 4;
 }
@@ -124,7 +139,98 @@ a.article-link {
     color: inherit; /* Inherit text color */
 }
 
+/* Post page */
+.single-post {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    margin: 5%;
+}
+
+.headline.post{
+    font-size: 38px;
+    font-weight: 900;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.post-image{
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 3em;
+    height: auto;
+    border: solid 1px black;
+}
+
+.single-post a {
+    color: var(--accent-color); 
+    text-decoration: none;
+}
+
+.post-info{
+    margin: 25px 0 25px 0;
+    font-family: var(--default-text);
+    font-size: 12px;
+    font-weight: 300;
+    text-transform: uppercase;
+}
+
+.post-info .category {
+    font-weight: 800;
+    font-size: 13px;
+} 
+
+.post-info p {
+    font-size: 24px;
+    text-transform: none;
+    padding: 1rem 0 0 0;
+}
+
+.single-post article p, .single-post article h4{
+    font-family: var(--bread-text);
+    font-size: 20px;
+    margin: inherit;
+    margin-block-start: 0;
+    margin-block-end: .9rem;
+    margin-bottom: 13px;
+}
+
+.single-post img {
+    height: auto;
+    max-width: 100%;
+}
+
+blockquote{
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 40px;
+    margin-inline-end: 40px;
+}
+
+blockquote:before {
+    content: "‘’";
+    display: block;
+    color: var(--accent-color);
+    font-size: 100px;
+    letter-spacing: -5px;
+    margin-bottom: -20px;
+    margin-left: -6px;
+    margin-top: 40px;
+}
+
+blockquote.wp-block-quote p, blockquote.wp-block-quote cite {
+    font-family: var(--headline-text);
+    font-weight: 700;
+    font-size: 38px;
+}
+
+/* TO DO: UL & LI STYLING, IMAGE IN TEXT STYLING */
+
+/* RESPONSIVE */
+
 @media screen and (min-width: 800px) {
+    /* HOME STYLING */
     .grid{
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -138,7 +244,6 @@ a.article-link {
         gap: 10px;
     }
 
-        /* Style for each article */
     .article {
         display: flex;
         margin-right: auto;
@@ -207,6 +312,11 @@ a.article-link {
         min-height: 450px;
         max-height: 450px; /* Fixed height for images */
     }
+
+    /* POST STYLING */
+    .post-image{
+        max-width: 850px;
+    }
 }
 
 @media screen and (min-width: 1024px) {
@@ -216,86 +326,51 @@ a.article-link {
     }
 }
 
-/* TO DO:
-/* Post page */
-* {
-    margin: 0;
+/* Hide content visually but keep it accessible to screen readers */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
     padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
-.single-post {
+/* Share button */
+.share-button {
     display: flex;
-    flex-direction: column;
-
     align-items: center;
-    margin: 5%;
-}
-
-h2 {
-    font-size: 2em;
-    text-align: center;
-    margin: 5%;
-}
-
-.post-img, figure, figure img {
-    width: 100%;
-    max-width: 400px;
-    height: auto;
-}
-
-figure img {
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-
-ul {
-    list-style: none;
-    display: flex;
-    /* justify-content: space-between; */
-    margin: 0% 3% 0% 3%;
     justify-content: center;
-    flex-wrap: wrap;
+    height: 40px; /* Set initial height for mobile */
+    border: none; /* Remove default button styling */
+    background: none; /* Remove default button styling */
+    cursor: pointer; /* Change cursor to pointer */
+    padding: 0; /* Remove default button padding */
 }
 
-.post-info {
-    margin: 4% 0% 4% 0%;
+.share-button:focus {
+    outline: none; /* Remove default focus outline */
 }
 
-li {
-    font-size: 1em;
-    margin: 2%;
+.share-button svg {
+    width: 20px; /* Set width of SVG */
+    height: 20px; /* Set height of SVG */
+}
 
-    &.category {
-        font-weight: bold;
+@media screen and (min-width: 576px) {
+    .share-button {
+        height: 50px; /* Adjust height for larger screens */
     }
-
-    &.author {
-        font-weight: bold;
-    }
-
-    &.read-time {
-        font-weight: 700;
-        color: rgb(99, 99, 101);
+    
+    .share-button svg {
+        width: 25px; /* Adjust SVG size for larger screens */
+        height: 25px; /* Adjust SVG size for larger screens */
     }
 }
 
-p {
-    margin-top: 1em;
-}
-
-h4{
-    font-size: 150%;
-    margin-top: 1.5em;
-}
-
-a.category {
-    text-decoration: inherit;
-    color: white;
-    background-color: black;
-    padding: .2em;
-}
-
-
+/* TO DO:
 /* Nav styling */
 nav {
     margin: 5%;
@@ -317,55 +392,5 @@ nav {
 @media (min-width: 75em) {
     .logo {
         width: calc(20% - 5%)
-    }
-}
-
-/* Hide content visually but keep it accessible to screen readers */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
-/* Share button */
-.share-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px; /* Set initial width for mobile */
-    height: 40px; /* Set initial height for mobile */
-    border: none; /* Remove default button styling */
-    background: none; /* Remove default button styling */
-    cursor: pointer; /* Change cursor to pointer */
-    padding: 0; /* Remove default button padding */
-}
-
-.share-button:focus {
-    outline: none; /* Remove default focus outline */
-}
-
-@media screen and (min-width: 576px) {
-    .share-button {
-        width: 50px; /* Adjust width for larger screens */
-        height: 50px; /* Adjust height for larger screens */
-    }
-}
-
-@media screen and (min-width: 768px) {
-    .share-button {
-        width: 60px; /* Adjust width for tablets */
-        height: 60px; /* Adjust height for tablets */
-    }
-}
-
-@media screen and (min-width: 992px) {
-    .share-button {
-        width: 70px; /* Adjust width for desktops */
-        height: 70px; /* Adjust height for desktops */
     }
 }
