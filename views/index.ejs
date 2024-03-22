@@ -15,14 +15,7 @@
                                 </h3>
                                 <img src="<%= firstPost.jetpack_featured_media_url %>" class="featured-image-mobile" alt="Post Image">                         
                                 <div class="featured-text">
-                                    <%
-                                    // Split the content by paragraphs
-                                    const paragraphs = firstPost.content.rendered.split('</p>');
-
-                                    // Get the first paragraph
-                                    const firstParagraph = paragraphs[0].replace('<p>', '');
-                                    %>
-                                    <%- firstParagraph %>
+                                    <%- firstPost.excerpt.rendered %>
                                 </div>
                                 </h3>
                                 <hr>
