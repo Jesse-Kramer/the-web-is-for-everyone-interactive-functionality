@@ -22,7 +22,7 @@
             </span>
             <span class="date">| 
                 <%= new Date(post.date).getDate() %>/<%= new Date(post.date).getMonth() + 1 %>/<%= new Date(post.date).getFullYear() %> 
-                <%= new Date(post.date).getHours() %>:<%= new Date(post.date).getMinutes() %>
+                <%= new Date(post.date).toLocaleTimeString('nl-NL', {hour12: false, hour: '2-digit', minute:'2-digit'}) %>                
             </span> 
             
             <p>
@@ -35,7 +35,6 @@
             <span class="reading-time"> | <%= post.yoast_head_json.twitter_misc["Geschatte leestijd"] %></span>
             <span class="reading-time"> | <%= shares %> keer gedeeld</span>
             <span class="share-button">
-                <!-- Share button -->
                 <% let categorySlug = ''; %>
                 <% post.categories.forEach(function(categoryId, index) { %>
                     <% const category = categories.find(category => category.id === categoryId); %>
