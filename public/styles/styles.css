@@ -45,7 +45,7 @@ body {
 }
 
 .headline.featured{
-    font-size: 32px;
+    font-size: 28px;
 }
 
 .featured-text{
@@ -187,13 +187,17 @@ a.article-link {
     padding: 1rem 0 0 0;
 }
 
-.single-post article p, .single-post article h4{
+.single-post article p, .single-post article h4, .single-post ul, .single-post-li{
     font-family: var(--bread-text);
     font-size: 20px;
     margin: inherit;
     margin-block-start: 0;
     margin-block-end: .9rem;
     margin-bottom: 13px;
+}
+
+.single-post ul{
+    padding: revert;
 }
 
 .single-post img {
@@ -206,6 +210,7 @@ blockquote{
     margin-block-end: 1em;
     margin-inline-start: 40px;
     margin-inline-end: 40px;
+    padding: 0 40px 40px 40px;
 }
 
 blockquote:before {
@@ -225,7 +230,39 @@ blockquote.wp-block-quote p, blockquote.wp-block-quote cite {
     font-size: 38px;
 }
 
-/* TO DO: UL & LI STYLING, IMAGE IN TEXT STYLING */
+figure.wp-block-gallery {
+    display: flex;
+    gap: 15px;
+    margin: 13px 0 13px 0;
+}
+
+figure.wp-block-image {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+    max-width: 100%;
+    position: relative;
+}
+
+figcaption.wp-element-caption {
+    background: linear-gradient(0deg, #000000b3, #0000004d 70%, #0000);
+    bottom: 0;
+    box-sizing: border-box;
+    color: #fff;
+    font-size: 13px;
+    left: 0;
+    margin-bottom: 0;
+    overflow: auto;
+    padding: 0 8px 8px;
+    position: absolute;
+    scrollbar-color: #0000 #0000;
+    text-align: center;
+    width: 100%;
+    will-change: transform;
+}
+
 
 /* RESPONSIVE */
 
@@ -263,7 +300,10 @@ blockquote.wp-block-quote p, blockquote.wp-block-quote cite {
         -webkit-line-clamp: 4;
         line-clamp: 4;
         min-height: 120px;
-        margin: .2em 0 .2em 0;
+    }
+
+    .headline.featured{
+        font-size: 32px;
     }
 
     /* Image style */
