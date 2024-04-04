@@ -10,10 +10,10 @@
 - [Licentie](#licentie)
 
 ## Beschrijving
--
+De Red Pers Website is een project gericht op het verbeteren van de gebruikerservaring voor alle bezoekers door middel van een toegankelijke en responsieve website. Dit project is ontworpen om te voldoen aan de behoeften van de opdrachtgever, waarbij de nadruk ligt op het creëren van een geavanceerde, op maat gemaakte website zonder afhankelijk te zijn van platforms zoals WordPress en Elementor. Het project omvat een volledige herziening van de huidige website, met verbeterde functionaliteiten en nieuwe features zoals een podcastspeler en een aantrekkelijkere weergave van fotoreportages.
 
 ## Gebruik
--
+De Red Pers Website biedt een verbeterde gebruikerservaring voor bezoekers, met een responsief ontwerp en verbeterde functionaliteiten, met inbegrip van een podcastspeler en een verbeterde weergave van fotoreportages. Gebruikers kunnen door de verschillende secties van de website navigeren om nieuwsartikelen te lezen, podcasts te beluisteren en fotoreportages te bekijken. De website is ontworpen met het oog op toegankelijkheid en responsiviteit, waardoor het gemakkelijk te gebruiken is op verschillende apparaten en schermformaten.
 
 ## Kenmerken
 De Red Pers Website is gebouwd met behulp van de volgende technieken en tools:
