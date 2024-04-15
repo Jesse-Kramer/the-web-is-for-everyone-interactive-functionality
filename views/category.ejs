@@ -2,20 +2,23 @@
 
     <main>
         <h2><%- category.name %></h1>
-        <section class="grid-container">
-            <% posts.forEach(post => { %>
-                
-        <a href="<%= category.slug %>/<%= post.slug %>" class="article-link"> <!-- Not working correctly-->
+            <section class="article-list">
+                <% posts.forEach(post => { %>
+                    <a href="<%= category.slug %>/<%= post.slug %>" class="article-link">
                     <article class="article">
                         <img src="<%= post.jetpack_featured_media_url %>" alt="Post Image">
-                        <h3>
-                            <%- post.title.rendered%>
+                        <h3 class="headline">
+                            <%- post.title.rendered %>
                         </h3>
-                        <span><b><%= post.yoast_head_json.author %></b> | <%= post.yoast_head_json.twitter_misc["Geschatte leestijd"] %></span>
+                        <hr>
+                        <div class="post-meta">
+                            <span class="author"><%= post.yoast_head_json.author %></span>
+                            <span class="reading-time">| <%= post.yoast_head_json.twitter_misc["Geschatte leestijd"] %></span>
+                        </div>          
                     </article>
-                </a>
-            <% }); %>
-        </section>
+                    </a>
+                <% }); %>
+            </section>
     </main>
 
     <%- include('./partials/foot') %>
