@@ -413,25 +413,378 @@ figcaption.wp-element-caption {
 
 /* TO DO:
 /* Nav styling */
-nav {
-    margin: 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Add this line */
+/* #region Mobile menu styling */
+
+
+/* #region load-in-fonts */
+
+@font-face {
+    font-family: 'Tiempos-Headline-Medium';
+    src: url(/public/assets/font/TiemposHeadline-Medium.ttf);
 }
 
-.logo {
+@font-face {
+    font-family: 'Tiempos-Headline-Regular';
+    src: url(/public/assets/font/TiemposText-Regular.ttf);
+}
+
+/* #endregion */
+
+
+
+:root {
+    /* Huisstijl kleuren */
+
+    --main-bg-color: #F7F7F5;
+    --secondary-bg-color: #FFFFFF;
+    --text-color: #000000;
+    --accent-color: #E84340;
+
+    /* New Accent colors */
+
+    --secondary-accent-color: #F2D930;
+    --tertiary-accent-color: #5340E8;
+
+    /* Fonts */
+
+    --medium-text: 'Tiempos-Headline-Medium', sans serif;
+    --regular-text: 'Tiempos-Headline-Regular', sans serif;
+    --content-text: 'Inter', sans serif;
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+}
+
+/* Fallback style */
+body {
+    background-color: #F7F7F5;
+}
+
+@supports (--main-bg-color : #F7F7F5) and (--text-color: #000000) {
+
+    body {
+        background-color: var(--main-bg-color);
+        color: var(--text-color);
+    }
+}
+
+/* Fallback style */
+a {
+    color: #000000;
+}
+
+@supports (--text-color: #000000) {
+
+    a {
+        text-decoration: none;
+        color: var(--text-color);
+    }
+}
+
+/* Fallback style */
+main {
+    margin-top: 10%;
+}
+
+@supports (margin: calc(10%)) {
+
+    main {
+        margin-top: calc(10%);
+    }
+}
+
+
+ul {
+    list-style: none;
+}
+
+/* #region Mobile menu styling */
+
+
+@supports (display: flex) and (padding-bottom: calc(5%)) {
+
+    .mobile-menu {
+        margin: calc(5%);
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: calc(5%);
+        border-bottom: solid 1px black;
+    }
+
+}
+
+
+.logo-mobile {
     width: 40%;
 }
 
-@media (min-width: 45em) {
+@supports (display: flex) and (position: fixed) and (transform: translateX(-150%)) {
+    .burger_menu_window {
+        position: fixed;
+        transform: translateX(-150%);
+        transition: transform 0.38s cubic-bezier(0.17, 0.67, 0, 1);
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 99;
+        background: rgb(238, 238, 238);
+        border: solid 2.5px var(--tertiary-accent-color);
+        font-family: 'Inter', sans-serif;
+        overflow-y: auto;
+        font-size: 1.25em;
+        font-weight: 800;
+    }
+
+    .close_icon {
+        margin: 5%;
+        border: none;
+        width: 24px;
+        height: 24px;
+    }
+
+
+    .main_pages {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        & li {
+            margin: 4%;
+        }
+    }
+
+    .other_pages {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: calc(10%);
+        align-items: center;
+
+        & li {
+            margin: calc(5%);
+        }
+    }
+}
+
+
+.menu_icon {
+    background: none;
+    color: inherit;
+    border: none;
+    width: calc(35px);
+    height: calc(35px);
+}
+
+.svg path {
+    fill: white;
+}
+
+
+/* Fallback style */
+
+li:hover {
+    color: #E84340;
+}
+
+@supports(--accent-color :#E84340){
+    li:hover {
+        color: var(--accent-color);
+    
+    }
+}
+
+/* #endregion */
+
+/* #region Desktop menu styling */
+
+.desktop-menu {
+    font-family: 'Inter', sans-serif;
+
+    /*  First row styling */
+
+    .first-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin: 5% 10% 5% 10%;
+
+    }
+
+    .current-date {
+        text-transform: uppercase;
+        font-weight: 700;
+        flex: 1;
+    }
+
+    .logo_desktop {
+        width: calc(35%);
+        display: block;
+        margin: 0 auto;
+    }
+
     .logo {
+        text-align: center;
+        display: block;
+        margin: calc(0%) auto;
+    }
+
+    .newsletter {
+        flex: 1;
+
+        & span {
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+    }
+
+    .newsletter_button {
+        border: none;
+        background: inherit;
+
+        svg {
+            transition: transform 0.3s ease-in-out;
+            /* Add smooth transition on transform */
+        }
+
+        /* Apply animation on hover */
+        &:hover svg {
+            animation: swing 0.5s ease-in-out;
+            /* Apply swing animation on hover */
+        }
+    }
+
+
+    /* Second Row styling */
+
+    .second-row {
+        font-size: calc(0.8em);
+        margin: 0% 6% 0% 6%;
+        border-top: solid 1px black;
+        border-bottom: solid 1px black;
+        white-space: nowrap;
+    }
+
+    .desktop-pages {
+        margin: calc(1%);
+        display: flex;
+        justify-content: space-between;
+
+        & a:hover {
+            color: var(--accent-color);
+        }
+    }
+
+}
+
+
+/* #endregion */
+
+
+@media (min-width: 31.25em) {
+    main {
+        margin-top: 7%;
+    }
+}
+
+@media (min-width: 45em) {
+    .logo-mobile {
         width: 20%;
     }
 }
 
-@media (min-width: 75em) {
-    .logo {
-        width: calc(20% - 5%)
+@media (max-width: 60em) {
+
+    .desktop-menu {
+        display: none;
+    }
+
+}
+
+@media (min-width: 60.0625em) {
+
+    nav {
+        margin: 0%;
+        padding-bottom: 0%;
+        border-bottom: none;
+        justify-content: center;
+    }
+
+    .desktop-menu {
+        display: block;
+
+        & ul {
+            flex-wrap: wrap;
+        }
+
+        & .logo_desktop {
+            width: calc(35% - 12.5%);
+        }
+    }
+
+    .mobile-menu {
+        display: none;
+
+        .burger_menu_window {
+            display: none;
+        }
+
+    }
+
+
+}
+
+@media(min-width: 67em) {
+
+
+    .desktop-pages {
+
+        flex-wrap: nowrap;
+
+        li {
+            padding: 1%;
+        }
+
+        & .logo_desktop {
+            width: calc(35% - 15%);
+        }
     }
 }
+
+
+/* #region Keyframe animations */
+
+/* Define keyframe animation for swinging */
+@keyframes swing {
+    0% {
+        transform: rotateZ(0);
+    }
+
+    25% {
+        transform: rotateZ(-20deg);
+    }
+
+    50% {
+        transform: rotateZ(2deg);
+    }
+
+    75% {
+        transform: rotateZ(-5deg);
+    }
+
+    100% {
+        transform: rotateZ(0);
+    }
+}
+
+/* #endregion */
