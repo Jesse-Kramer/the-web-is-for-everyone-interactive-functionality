@@ -25,39 +25,46 @@ app.use(express.static('public'));
 
 // GET route for the index page
 app.get('/', function (request, response) {
-    // Fetch posts from the API
-    const categoriesUrl = `${redpersUrl}/categories?per_page=100`;
-    const postsUrl = `${redpersUrl}/posts`;
-    const sharesUrl = `${directusUrl}`;
+    // Define the IDs of the categories you want to load
+    const categoryIds = [9, 1010, 7164, 6, 4, 3211, 63, 94];
 
-    // Fetch posts, categories, and shares concurrently
-    Promise.all([fetchJson(categoriesUrl), fetchJson(postsUrl), fetchJson(sharesUrl)])
-        .then(([categoriesData, postsData, sharesData]) => {
-            // Map over the postsData array and add shares information to each article
-            postsData.forEach((article) => {
-                const shareInfo = sharesData.data.find((share) => share.slug === article.slug);
-                article.shares = shareInfo ? shareInfo.shares : 0;
-            });
+    // Fetch categories and posts concurrently
+    Promise.all([
+        fetchJson(`${redpersUrl}/categories?include=${categoryIds.join(',')}`),
+        fetchJson(`${redpersUrl}/posts`),
+        fetchJson(`${directusUrl}`)
+    ])
+    .then(([categoriesData, postsData, sharesData]) => {
+        // Filter posts based on category IDs
+        const filteredPosts = postsData.filter(post => categoryIds.includes(post.categories[0])); // Assuming each post has only one category
 
-            // Render index.ejs and pass the fetched data as 'posts' and 'categories' variables
-            response.render('index', { categories: categoriesData, posts: postsData });
-        })
-        .catch((error) => {
-            // Handle error if fetching data fails
-            console.error('Error fetching data:', error);
-            response.status(500).send('Error fetching data');
+        // Map over the filtered postsData array and add shares information to each article
+        filteredPosts.forEach((article) => {
+            const shareInfo = sharesData.data.find((share) => share.slug === article.slug);
+            article.shares = shareInfo ? shareInfo.shares : 0;
         });
-});
 
+        // Render index.ejs and pass the filtered data as 'posts' and 'categories' variables
+        response.render('index', { categories: categoriesData, posts: filteredPosts });
+    })
+    .catch((error) => {
+        // Handle error if fetching data fails
+        console.error('Error fetching data:', error);
+        response.status(500).send('Error fetching data');
+    });
+});
 // GET route for displaying all posts in a category
 app.get('/:categorySlug', function (request, response) {
     const categorySlug = request.params.categorySlug;
 
-    // Fetch category data based on provided category slug
-    fetchJson(`${redpersUrl}/categories?slug=${categorySlug}`)
+    // Define the IDs of the categories you want to load
+    const categoryIds = [9, 1010, 7164, 6, 4, 3211, 63, 94];
+
+    // Fetch category data based on provided category slug and filter by IDs
+    fetchJson(`${redpersUrl}/categories?slug=${categorySlug}&include=${categoryIds.join(',')}`)
         .then((categoriesData) => {
             if (categoriesData.length === 0) {
-                // If no category found, return 404
+                // If no category found or not in the specified IDs, return 404
                 response.status(404).send('Category not found');
                 return;
             }
@@ -89,17 +96,20 @@ app.get('/:categorySlug/:postSlug', function (request, response) {
     const postSlug = request.params.postSlug;
     const currentUrl = `${request.protocol}://${request.get('host')}${request.originalUrl}`; // Get the URL of the current post
 
-    // Fetch category data based on provided category slug
-    fetchJson(`${redpersUrl}/categories?slug=${categorySlug}`)
+    // Define the IDs of the categories you want to load
+    const categoryIds = [9, 1010, 7164, 6, 4, 3211, 63, 94];
+
+    // Fetch category data based on provided category slug and filter by IDs
+    fetchJson(`${redpersUrl}/categories?slug=${categorySlug}&include=${categoryIds.join(',')}`)
         .then((categoriesData) => {
             if (categoriesData.length === 0) {
-                // If no category found, return 404
+                // If no category found or not in the specified IDs, return 404
                 response.status(404).send('Category not found');
                 return;
             }
 
             // Fetch the post with the given slug from the API
-            fetchJson(`${redpersUrl}/posts?slug=${postSlug}`)
+            fetchJson(`${redpersUrl}/posts?slug=${postSlug}&categories=${categoriesData[0].id}`)
                 .then((postsData) => {
                     if (postsData.length === 0) {
                         // If no post found, return 404
